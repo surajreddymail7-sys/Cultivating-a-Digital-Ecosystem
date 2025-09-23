@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FEDF-PS17 — Inspire Farming Platform</title>
+  <style>
+    :root{--bg:#f7fbf6;--card:#ffffff;--muted:#6b7280;--accent:#1f8a70;--glass:rgba(255,255,255,0.6)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#eefaf4 0%,var(--bg) 100%);color:#0f172a}
+    header{background:var(--card);backdrop-filter:blur(6px);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #e6eef0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#2bbf9e);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    nav a{margin-left:12px;color:var(--muted);text-decoration:none;font-weight:600}
+    main{padding:28px;max-width:1100px;margin:0 auto}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+    .hero{display:flex;align-items:center;gap:18px}
+    .hero h1{margin:0;font-size:22px}
+    .roles{display:flex;gap:10px;margin-top:16px}
+    .role{padding:10px 12px;border-radius:8px;cursor:pointer;border:1px solid #e6eef0;background:linear-gradient(180deg,white,var(--glass));font-weight:700}
+    .role.active{border-color:var(--accent);box-shadow:0 6px 18px rgba(31,138,112,0.08)}
+    .list{margin-top:14px;display:grid;gap:10px}
+    .resource{padding:12px;border-radius:8px;border:1px dashed #e6eef0;background:linear-gradient(180deg,#fff,#fbfffc)}
+    .muted{color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:white;font-weight:700;cursor:pointer}
+    .small{font-size:13px;padding:6px 8px}
+    .connect-list{display:flex;flex-direction:column;gap:8px}
+    footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
+    /* admin panel */
+    .admin-tools{display:flex;flex-direction:column;gap:8px}
+    .form-row{display:flex;gap:8px}
+    input,textarea,select{padding:10px;border-radius:8px;border:1px solid #e6eef0;width:100%;font-size:14px}
+    textarea{min-height:90px}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#f0fbf8;border:1px solid #dff3ec;color:#0b6b52;font-weight:700}
+    /* responsive */
+    @media (max-width:960px){.grid{grid-template-columns:1fr}nav{display:none}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">F</div>
+      <div>
+        <div style="font-weight:800">FEDF-PS17</div>
+        <div style="font-size:12px;color:var(--muted)">Inspire farming • Connect sectors • Empower farmers</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#resources">Resources</a>
+      <a href="#connect">Connect</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="grid">
+      <section class="card">
+        <div class="hero">
+          <div style="flex:1">
+            <h1>Inspire society about farming — help farmers benefit from all sectors</h1>
+            <p class="muted">Choose a role to see tailored tools & resources. This is a static front-end prototype you can run locally.</p>
+            <div class="roles" id="roleTabs">
+              <div class="role active" data-role="public">Public</div>
+              <div class="role" data-role="farmer">Farmer</div>
+              <div class="role" data-role="expert">Agricultural Expert</div>
+              <div class="role" data-role="admin">Admin</div>
+            </div>
+          </div>
+          <div style="width:160px;text-align:right">
+            <div class="pill">Community-first</div>
+            <div style="height:8px"></div>
+            <button class="btn small" id="openDemo">Open demo data</button>
+          </div>
+        </div>
+
+        <div id="contentArea">
+          <!-- Dynamic content injected by JS based on role -->
+          <div id="publicView">
+            <h3>Explore farming — learn & engage</h3>
+            <p class="muted">Articles, simple guides, events and ways to support local farmers.</p>
+            <div class="list">
+              <div class="resource">
+                <strong>Why sustainable farming matters</strong>
+                <div class="muted small">By Agricultural Expert — 12 Aug 2025</div>
+                <p class="muted">Short explainer about soil health, crop rotation, and consumer choices.</p>
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <div class="muted">Categories: Education • Community</div>
+                  <div>
+                    <button class="btn small" onclick="bookmark('Why sustainable farming matters')">Bookmark</button>
+                  </div>
+                </div>
+              </div>
+              <div class="resource">
+                <strong>Local farmer market — City Park</strong>
+                <div class="muted small">Event • 02 Oct 2025</div>
+                <p class="muted">Monthly market connecting producers and consumers. Volunteer & visit.</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="farmerView" style="display:none">
+            <h3>Farmer dashboard</h3>
+            <p class="muted">Access tools, resources, and connect with buyers or experts.</p>
+            <div class="list">
+              <div class="resource">
+                <strong>Crop advisory chat</strong>
+                <p class="muted">Ask experts about pests, fertilisers, and irrigation.</p>
+                <div style="display:flex;gap:8px;justify-content:flex-end">
+                  <button class="btn small" onclick="openChat('farmer')">Start Chat</button>
+                </div>
+              </div>
+              <div class="resource">
+                <strong>Funding & grants</strong>
+                <p class="muted">Find government & NGO grants suitable for smallholders.</p>
+                <div style="display:flex;gap:8px;justify-content:flex-end">
+                  <button class="btn small" onclick="applyGrant()">Apply</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="expertView" style="display:none">
+            <h3>Agricultural expert tools</h3>
+            <p class="muted">Create educational content, schedule workshops, and advise farmers.</p>
+            <div class="list">
+              <div class="resource">
+                <strong>Create article / guide</strong>
+                <p class="muted">Share your knowledge — best practices, short videos, and FAQs.</p>
+                <div style="display:flex;gap:8px;justify-content:flex-end">
+                  <button class="btn small" onclick="openCreate('article')">Create</button>
+                </div>
+              </div>
+              <div class="resource">
+                <strong>One-to-one consults</strong>
+                <p class="muted">Offer paid or pro-bono consult sessions.</p>
+                <div style="display:flex;gap:8px;justify-content:flex-end">
+                  <button class="btn small" onclick="scheduleConsult()">Schedule</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="adminView" style="display:none">
+            <h3>Admin console</h3>
+            <p class="muted">Manage content, moderate discussions, and view platform stats.</p>
+            <div class="admin-tools">
+              <div class="card" style="padding:12px">
+                <strong>Quick publish</strong>
+                <div style="height:8px"></div>
+                <div class="form-row">
+                  <input id="admTitle" placeholder="Title" />
+                  <select id="admRole">
+                    <option value="public">Public</option>
+                    <option value="farmer">Farmer</option>
+                    <option value="expert">Expert</option>
+                  </select>
+                </div>
+                <div style="height:8px"></div>
+                <textarea id="admBody" placeholder="Write content..." ></textarea>
+                <div style="height:8px"></div>
+                <div style="display:flex;gap:8px;justify-content:flex-end">
+                  <button class="btn small" onclick="publishContent()">Publish</button>
+                </div>
+              </div>
+
+              <div class="card" style="padding:12px">
+                <strong>Moderation queue</strong>
+                <div id="modQueue" class="muted">No pending reports — demo mode.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <aside class="card">
+        <div>
+          <strong>Connect & Services</strong>
+          <p class="muted">Sectors: Marketplaces • Finance • Logistics • Education • Policy</p>
+        </div>
+
+        <div style="height:10px"></div>
+        <div class="connect-list">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <strong>Marketplace</strong>
+              <div class="muted small">Buy/sell produce</div>
+            </div>
+            <button class="btn small" onclick="openMarketplace()">Open</button>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <strong>Microfinance</strong>
+              <div class="muted small">Find loans & insurance</div>
+            </div>
+            <button class="btn small" onclick="openFinance()">Explore</button>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <strong>Logistics</strong>
+              <div class="muted small">Cold chain & transport partners</div>
+            </div>
+            <button class="btn small" onclick="openLogistics()">Partner</button>
+          </div>
+        </div>
+
+        <div style="height:16px"></div>
+        <div>
+          <strong>Search resources</strong>
+          <div style="height:8px"></div>
+          <input id="search" placeholder="Search articles, guides..." oninput="doSearch(this.value)" />
+          <div id="searchRes" class="muted" style="margin-top:10px">No results yet.</div>
+        </div>
+
+        <div style="height:16px"></div>
+        <div>
+          <strong>Get involved</strong>
+          <p class="muted">Volunteer, sponsor, or host a workshop.</p>
+          <button class="btn" onclick="openInvolve()">Get involved</button>
+        </div>
+
+      </aside>
+    </div>
+
+    <footer>
+      © FEDF-PS17 — Prototype • Built for awareness & farmer empowerment
+    </footer>
+  </main>
+
+  <script>
+    // Simple role switching + tiny demo state stored in localStorage
+    const tabs = document.querySelectorAll('.role');
+    const views = {public:document.getElementById('publicView'),farmer:document.getElementById('farmerView'),expert:document.getElementById('expertView'),admin:document.getElementById('adminView')};
+
+    tabs.forEach(t=>t.addEventListener('click',()=>{
+      tabs.forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      const role = t.dataset.role;
+      showRole(role);
+    }));
+
+    function showRole(role){
+      for(const k in views){views[k].style.display = (k===role)?'block':'none'}
+    }
+
+    // Demo actions
+    function bookmark(title){alert('Bookmarked: '+title)}
+    function openChat(role){alert('Opening chat — demo only for: '+role)}
+    function applyGrant(){alert('Grant application flow — demo')}
+    function openCreate(type){alert('Open create '+type)}
+    function scheduleConsult(){alert('Schedule consult — demo')}
+    function openMarketplace(){alert('Marketplace demo — connect buyers and sellers')}
+    function openFinance(){alert('Microfinance partners — demo')}
+    function openLogistics(){alert('Logistics partner flow — demo')}
+    function openInvolve(){alert('Thanks! A coordinator will contact volunteers (demo)')}
+
+    // Admin publish
+    function publishContent(){
+      const title = document.getElementById('admTitle').value.trim();
+      const role = document.getElementById('admRole').value;
+      const body = document.getElementById('admBody').value.trim();
+      if(!title || !body){alert('Please provide title and content.');return}
+      // Save to localStorage as demo DB
+      const db = JSON.parse(localStorage.getItem('fedf-db')||'{}');
+      db.articles = db.articles||[];
+      db.articles.push({title,body,role,when:new Date().toISOString()});
+      localStorage.setItem('fedf-db',JSON.stringify(db));
+      alert('Published — saved locally (demo).');
+      document.getElementById('admTitle').value='';document.getElementById('admBody').value='';
+    }
+
+    // Search
+    function doSearch(q){
+      q = q.trim().toLowerCase();
+      const db = JSON.parse(localStorage.getItem('fedf-db')||'{}');
+      const results = (db.articles||[]).filter(a=>a.title.toLowerCase().includes(q)||a.body.toLowerCase().includes(q));
+      const el = document.getElementById('searchRes');
+      if(!q){el.textContent='No results yet.';return}
+      if(results.length===0){el.textContent='No results.';return}
+      el.innerHTML = results.map(r=>`<div style="padding:8px;border-radius:8px;background:#fbfff9;margin-bottom:6px"><strong>${escapeHtml(r.title)}</strong><div class=\"muted small\">For: ${r.role} • ${new Date(r.when).toLocaleString()}</div><div class=\"muted\">${escapeHtml(r.body.slice(0,120))}...</div></div>`).join('');
+    }
+
+    function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+    // Demo dataset
+    document.getElementById('openDemo').addEventListener('click',()=>{
+      const demo = {articles:[{title:'Soil health 101',body:'Practical steps to improve soil fertility for small farms.',role:'farmer',when:new Date().toISOString()},{title:'How consumers can support farmers',body:'Local buying, CSA, and community markets explained.',role:'public',when:new Date().toISOString()},{title:'IPM basics',body:'Integrated pest management overview for extension workers.',role:'expert',when:new Date().toISOString()}]};
+      localStorage.setItem('fedf-db',JSON.stringify(demo));
+      alert('Demo data loaded. Use search to find items.');
+    });
+
+    // small utilities
+    function applyGrant(){alert('This is a demo. In production, redirect to grant application portal or show eligibility flow.')}
+
+    // initialize
+    showRole('public');
+  </script>
+</body>
+</html>
